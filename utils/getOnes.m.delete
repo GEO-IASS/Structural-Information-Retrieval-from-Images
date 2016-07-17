@@ -1,0 +1,76 @@
+function [judgeValue, totalPoints, maxZeroSeq] = getOnes(p1, p2, slope, BW, thresholdUp, thresholdDw, width)
+    judgeValue = 0;
+    totalPoints = 0;
+    zeroSeq = [];
+    zpt = 1;
+    tmpZero = 0;
+    tmp = 0;
+    
+    if abs(slope) > thresholdUp
+        if p1.y < p2.y
+            totalPoints = (p2.y - p1.y) * 7;
+            for p = int32(p1.y):int32(p2.y)
+                cx = (p - p1.y) / slope + p1.x;
+                tmp = (sum(BW(p,cx-width:cx+width)) > 0);
+                judgeValue = judgeValue + tmp;
+                if tmp == 0
+                    tmpZero = tmpZero + 1;
+                else
+                    zeroSeq(zpt) = tmpZero;
+                    tmpZero = 0;
+                    zpt = zpt + 1;
+                end
+            end
+        else
+            totalPoints = (p1.y - p2.y) * 7;
+            for p = int32(p1.y):int32(p2.y)
+                cx = (p - p1.y) / slope + p1.x;
+                tmp = (sum(BW(p,cx-width:cx+width)) > 0);
+                judgeValue = judgeValue + tmp;
+                if tmp == 0
+                    tmpZero = tmpZero + 1;
+                else
+                    zeroSeq(zpt) = tmpZero;
+                    tmpZero = 0;
+                    zpt = zpt + 1;
+                end
+            end
+        end
+
+    elseif abs(slope) < thresholdDw
+        if p1.x < p2.x
+            totalPoints = (p2.x - p1.x) * 7;
+            for p = int32(p1.x):int32(p2.x)
+                cy = slope * (p - p1.x) + p1.y;
+                tmp = (sum(BW(cy-width:cy+width,p)) > 0);
+                judgeValue = judgeValue + tmp;
+                if tmp == 0
+                    tmpZero = tmpZero + 1;
+                else
+                    zeroSeq(zpt) = tmpZero;
+                    tmpZero = 0;
+                    zpt = zpt + 1;
+                end
+            end
+        else
+            totalPoints = (p1.x - p2.x) * 7;
+            for p = int32(p1.x):int32(p2.x)
+                cy = slope * (p - p1.x) + p1.y;
+                tmp = (sum(BW(cy-width:cy+width,p)) > 0);
+                judgeValue = judgeValue + tmp;
+                if tmp == 0
+                    tmpZero = tmpZero + 1;
+                else
+                    zeroSeq(zpt) = tmpZero;
+                    tmpZero = 0;
+                    zpt = zpt + 1;
+                end
+            end
+        end
+    end
+    if ~isempty(zeroSeq)
+        maxZeroSeq = max(zeroSeq);
+    else
+        maxZeroSeq = 0;
+    end
+end
