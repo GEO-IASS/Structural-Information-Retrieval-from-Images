@@ -4,7 +4,7 @@ prog_setup
 %% load image
 tic;
 fprintf('loading image...\n');
-img = imread('.\1.jpg');
+img = imread('.\2.jpg');
 img = imresize(img, [NaN,450]);
 M = size(img, 1); N = size(img, 2);
 
@@ -16,6 +16,10 @@ tmp = C(:,1);
 C(:,1) = C(:,2);
 C(:,2) = tmp;
 
+% merge corners that are too close to each other
+% too many corners may cause loop-finding procedure extremely slow
+% so if you find this program running too slow, Ctrl+C and modify the
+% following '15' into some bigger value.
 CCC = C;
 for k = 1:3
     CCC = mergeWithNearest(CCC, 15);

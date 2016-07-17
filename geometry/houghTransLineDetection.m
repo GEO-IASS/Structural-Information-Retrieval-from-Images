@@ -1,9 +1,12 @@
 %% Use Hough Transform to find lines in a BW image
 % Input Arguments:
-% numLines: the maximum number of lines to be found, typical 25
-% minLength: the minimum length for a valid line, typical 20~40
-% thresFactor: the minimum value for a peak to be considered as a line, 
-% typical 0.1~0.3
+%   numLines: the maximum number of lines to be found, typical 25
+%   minLength: the minimum length for a valid line, typical 20~40
+%   thresFactor: the minimum value for a peak to be considered as a line, 
+%   typically 0.1~0.3
+% Output Arguments:
+%   CCC: an M*2 array containing coordinates of M points
+%   cTable: an N*2 table describing how those M points in CCC are connected
 
 function [CCC,cTable] = houghTransLineDetection(BW, numLines, minLength, thresFactor)
     I = BW;

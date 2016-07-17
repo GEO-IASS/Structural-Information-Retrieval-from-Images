@@ -1,3 +1,5 @@
+%% Corners with distance smaller than thres from each other will be merged
+
 function C = mergeWithNearest(P,thres)
     C = [];
     p = P;

@@ -1,45 +1,17 @@
 %% Connect two corners, searching for candidates from four directions
 % Input Arguments:
-%   CCC:
-%   BW:
-%   thresZS:
-%   zeroDetectionWidth:
+%   CCC: an M*2 list containing coordinates of corners
+%   BW: a binary image
+%   thresZS: if there are thresZS or more zero pixels between two corners,
+%   regard these two corners as disconnected
+%   zeroDetectionWidth: controls the width of a straight line on which
+%   connectivity of two coners are detected
 % Output Arguments:
 %   cTable: 
 
 function cTable = connectQuadNearest(CCC, BW, thresZS, zeroDetectionWidth, quadset)
     cTable = [];
-%     for k = 1:size(CCC,1)
-%         k1 = 1; b1 = -k1*CCC(k,1) + CCC(k,2);
-%         k2 = -1; b2 = -k2*CCC(k,1) + CCC(k,2);
-%         quadset = {[],[],[],[]};
-%         % assign points into four quadrants
-%         series = 1:size(CCC,1);
-%         series(k) = [];
-%         for m = series
-%             x = CCC(m,1);
-%             y = CCC(m,2);
-%             
-%             % remove a target candidate if the lien segment goes across large part of
-%             % darkness
-% 
-%             [~,zs] = getMaxZeroLength(CCC(k,:), CCC(m,:), BW, zeroDetectionWidth);
-%             
-%             if zs > thresZS
-%                 continue;
-%             end
-%             
-%             % put the valid candidates into the quadset
-%             if y >= k1*x+b1 && y < k2*x+b1
-%                 quadset{1} = [quadset{1},m];
-%             elseif y > k1*x+b1 && y >= k2*x+b2
-%                 quadset{2} = [quadset{2},m];
-%             elseif y <= k1*x+b1 && y > k2*x+b2
-%                 quadset{3} = [quadset{3},m];
-%             elseif y < k1*x+b1 && y <= k2*x+b2
-%                 quadset{4} = [quadset{4},m];
-%             end
-%         end
+
     if isempty(quadset)
         quadset = getQuadConnectionPointSet(CCC,BW,zeroDetectionWidth,thresZS,[1,-1]);
     end
